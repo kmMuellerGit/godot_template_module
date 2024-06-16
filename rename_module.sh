@@ -7,10 +7,15 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+module_name=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+if echo "$input_lower" | grep -q "module"; then
+    echo "Do not specify module in rename. Exiting.."
+    exit 1
+fi
+
 MY_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
 cd ${MY_PATH}
 
-module_name=$1
 MODULE_NAME=$(echo ${module_name} | tr '[:lower:]' '[:upper:]')
 echo "Renaming contents of files..."
 for f in register_types.cpp register_types.h tests/test_testmodule.h; do
